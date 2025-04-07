@@ -74,7 +74,7 @@ export default function Login() {
         </form>
 
         <p className="mt-4 text-center">
-          Don't have an account?{" "}
+          Don&apos;t have an account?
           <button
             className="text-blue-600 font-semibold hover:underline"
             onClick={() => router.push("/")}
