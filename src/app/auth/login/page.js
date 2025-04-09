@@ -17,19 +17,39 @@ export default function Login() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        }
+      );
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Invalid credentials");
+      let data;
 
+      // Safely parse response — check if it's JSON
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await res.json();
+      } else {
+        throw new Error("❌ Unexpected server response. Check backend URL.");
+      }
+
+      if (!res.ok) {
+        throw new Error(data.message || "❌ Invalid credentials");
+      }
+
+      // Save token & redirect
       localStorage.setItem("token", data.token);
-      router.push("/dashboard"); // Redirect after login
+      router.push("/dashboard");
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "❌ Something went wrong");
     }
   };
 

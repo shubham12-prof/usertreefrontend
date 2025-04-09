@@ -11,19 +11,22 @@ export default function Register() {
 
   const handleRegister = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email, password }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
         setMessage("✅ Registration successful! Redirecting...");
-        setTimeout(() => router.push("/auth/login"), 2000); // Redirect to login after 2s
+        setTimeout(() => router.push("/auth/login"), 2000);
       } else {
         setMessage("❌ " + data.message);
       }
