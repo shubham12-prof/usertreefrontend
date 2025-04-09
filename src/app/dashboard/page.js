@@ -14,9 +14,11 @@ export default function Dashboard() {
   const [tree, setTree] = useState(null);
   const router = useRouter();
 
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
   const handleLogout = () => {
     localStorage.removeItem("token");
-    router.push("/auth/login"); // Redirect to login page
+    router.push("/auth/login");
   };
 
   const handleChange = (e) => {
@@ -25,7 +27,7 @@ export default function Dashboard() {
 
   const fetchTree = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/users/tree", {
+      const res = await fetch(`${API_BASE_URL}/api/users/tree`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -39,7 +41,7 @@ export default function Dashboard() {
 
   const addUser = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/users/add-user", {
+      const res = await fetch(`${API_BASE_URL}/api/users/add-user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -102,6 +104,7 @@ export default function Dashboard() {
         </button>
         {message && <p className="mt-2 text-sm text-red-600">{message}</p>}
       </div>
+
       <div className="flex justify-end">
         <button
           onClick={handleLogout}
