@@ -142,7 +142,6 @@ export default function Dashboard() {
   useEffect(() => {
     fetchTree();
     fetchMyAddedUsers();
-    console.log(selectedUser, "user data");
   }, []);
 
   return (
@@ -265,7 +264,9 @@ export default function Dashboard() {
             ))}
           </ul>
         ) : (
-          <p className="text-gray-600">You haven't added any users yet.</p>
+          <p className="text-gray-600">
+            You haven&apos;t added any users yet..
+          </p>
         )}
 
         {/* View Details Section */}
